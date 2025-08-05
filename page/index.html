@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TopForce - Admin</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🏋️ TopForce - Control de Clientes</h1>
+    
+    <!-- Formulario para agregar clientes -->
+    <div class="form-container">
+      <h2>➕ Nuevo Cliente</h2>
+      <form id="clientForm">
+        <input type="text" id="name" placeholder="Nombre" required>
+        <input type="tel" id="phone" placeholder="Teléfono">
+        <input type="email" id="email" placeholder="Email">
+        <input type="date" id="startDate" required>
+        <input type="date" id="endDate" required>
+        <button type="submit">Guardar</button>
+      </form>
+    </div>
+
+    <!-- Lista de clientes -->
+    <div class="client-list">
+      <h2>📋 Clientes Registrados</h2>
+      <table id="clientTable">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Vencimiento</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="clientTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
