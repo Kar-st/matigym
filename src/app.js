@@ -1,27 +1,98 @@
-// Generador de WOD con animación
-document.getElementById('generate-wod').addEventListener('click', async () => {
-  const wodCard = document.querySelector('.card-wod');
-  wodCard.classList.add('animate-shake'); // Agrega efecto de vibración
-  
-  // Simula carga
-  document.getElementById('wod-content').textContent = "Generando...";
-  
-  // Obtiene datos reales de Google Sheets
-  const clientes = await getClientes();
-  const randomWOD = generarWOD(clientes); // Usa tu función generadora
-  
-  setTimeout(() => {
-    wodCard.classList.remove('animate-shake');
-    document.getElementById('wod-content').textContent = randomWOD;
-  }, 1000);
-});
+// Generador de WODs
+const wodExercises = {
+  cardio: ["Burpees", "Box Jumps", "Double Unders", "400m Run"],
+  strength: ["Thrusters", "Deadlifts", "Power Cleans", "Kettlebell Swings"],
+  core: ["Toes-to-Bar", "Sit-ups", "Russian Twists", "Plank"]
+};
 
-// Temporizador con sonido
-const timer = new Temporizador();
-document.getElementById('start-timer').addEventListener('click', () => {
-  timer.start(60, (seconds) => {
-    document.getElementById('timer').textContent = 
-      `${Math.floor(seconds / 60)}:${seconds % 60 < 10 ? '0' : ''}${seconds % 60}`;
-    if (seconds === 0) new Audio('sound/beep.mp3').play();
+function generateRandomWOD() {
+  const formats = ["AMRAP 15 min", "EMOM 12 min", "Tabata (8 rounds)", "For Time"];
+  const selectedFormat = formats[Math.floor(Math.random() * formats.length)];
+  
+  const getRandomExercise = (type) => {
+    const exercises = wodExercises[type];
+    const count = Math.floor(Math.random() * 10) + 5;
+    return `${count} ${exercises[Math.floor(Math.random() * exercises.length)]}`;
+  };
+  
+  const exercises = [
+    getRandomExercise("cardio"),
+    getRandomExercise("strength"),
+    getRandomExercise("core")
+  ];
+  
+  return {
+    format: selectedFormat,
+    exercises: exercises
+  };
+}
+
+// Temporizador
+class Timer {
+  constructor(display) {
+    this.display = display;
+    this.time = 720; // 12 minutos en segundos
+    this.interval = null;
+  }
+  
+  start() {
+    if (this.interval) return;
+    
+    this.interval = setInterval(() => {
+      this.time--;
+      this.updateDisplay();
+      
+      if (this.time <= 0) {
+        clearInterval(this.interval);
+        new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3').play();
+      }
+    }, 1000);
+  }
+  
+  reset() {
+    clearInterval(this.interval);
+    this.interval = null;
+    this.time = 720;
+    this.updateDisplay();
+  }
+  
+  updateDisplay() {
+    const minutes = Math.floor(this.time / 60);
+    const seconds = this.time % 60;
+    this.display.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  }
+}
+
+// Inicialización
+document.addEventListener('DOMContentLoaded', () => {
+  // WOD Generator
+  const wodDisplay = document.getElementById('wodDisplay');
+  const generateBtn = document.getElementById('generateBtn');
+  
+  generateBtn.addEventListener('click', () => {
+    generateBtn.classList.add('animate__animated', 'animate__rubberBand');
+    setTimeout(() => {
+      generateBtn.classList.remove('animate__animated', 'animate__rubberBand');
+    }, 1000);
+    
+    const wod = generateRandomWOD();
+    wodDisplay.innerHTML = `
+      <p>${wod.format}:</p>
+      <ul>
+        ${wod.exercises.map(ex => `<li>${ex}</li>`).join('')}
+      </ul>
+    `;
+  });
+  
+  // Timer
+  const timerDisplay = document.getElementById('timer');
+  const timer = new Timer(timerDisplay);
+  
+  document.getElementById('startTimer').addEventListener('click', () => {
+    timer.start();
+  });
+  
+  document.getElementById('resetTimer').addEventListener('click', () => {
+    timer.reset();
   });
 });

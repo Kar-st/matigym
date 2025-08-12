@@ -4,31 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MATIGYM Pro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Open+Sans&display=swap" rel="stylesheet">
+  <!-- Fuentes y librerías -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header class="hero">
-    <h1>🔥 MATIGYM Pro</h1>
-    <p>Tu entrenamiento personalizado</p>
+  <header class="app-header">
+    <h1 class="logo">MATIGYM <span>PRO</span></h1>
+    <div class="user-avatar"></div>
   </header>
 
-  <div class="container">
-    <!-- Tarjeta de WOD -->
-    <div class="card-wod animate-pop">
-      <h2 id="wod-title">WOD del Día</h2>
-      <p id="wod-content">Cargando...</p>
-      <button id="generate-wod" class="btn-pulse">✨ Nuevo WOD</button>
-    </div>
+  <main class="app-container">
+    <!-- Sección de WOD -->
+    <section class="wod-card animate__animated animate__fadeIn">
+      <div class="wod-header">
+        <h2>WOD DEL DÍA</h2>
+        <span class="difficulty-badge">INTERMEDIO</span>
+      </div>
+      <div class="wod-content" id="wodDisplay">
+        <p>15 Min AMRAP:</p>
+        <ul>
+          <li>12 Burpees</li>
+          <li>20 Air Squats</li>
+          <li>400m Run</li>
+        </ul>
+      </div>
+      <button id="generateBtn" class="action-btn animate__animated animate__pulse animate__infinite">
+        🔄 Generar Nuevo WOD
+      </button>
+    </section>
 
     <!-- Temporizador -->
-    <div class="timer-container">
-      <div id="timer" class="timer-circle">00:00</div>
-      <button id="start-timer" class="btn-glow">▶️ Iniciar</button>
-    </div>
-  </div>
+    <section class="timer-section">
+      <div class="timer-circle" id="timer">
+        12:00
+      </div>
+      <div class="timer-controls">
+        <button id="startTimer" class="timer-btn start">▶️ Comenzar</button>
+        <button id="resetTimer" class="timer-btn reset">🔄 Reiniciar</button>
+      </div>
+    </section>
+  </main>
 
-  <script src="js/sheets.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/app.js" type="module"></script>
 </body>
 </html>

@@ -1,73 +1,90 @@
-/* Estilos generales */
+:root {
+  --primary: #FF4D4D;
+  --secondary: #2B2D42;
+  --accent: #F8C537;
+  --text-light: #F8F9FA;
+}
+
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
-    margin: 0;
-    padding: 20px;
-    color: #333;
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43);
+  color: var(--text-light);
+  min-height: 100vh;
+  margin: 0;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background: rgba(43, 45, 66, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
+  margin: 0;
+  color: var(--accent);
+}
+
+.logo span {
+  color: var(--primary);
+}
+
+.wod-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 600px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.action-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1.5rem;
+  transition: all 0.3s;
+}
+
+.action-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(255, 77, 77, 0.3);
+}
+
+.timer-circle {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 8px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 2rem auto;
+  box-shadow: 0 0 30px rgba(248, 197, 55, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .wod-card {
+    padding: 1.5rem;
+    margin: 1rem;
   }
   
-  .container {
-    max-width: 1000px;
-    margin: 0 auto;
+  .timer-circle {
+    width: 180px;
+    height: 180px;
+    font-size: 2rem;
   }
-  
-  /* Formulario */
-  .form-container {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
-  }
-  
-  input {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  button {
-    background: #3498db;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background: #2980b9;
-  }
-  
-  /* Tabla de clientes */
-  .client-list {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .status-active {
-    color: green;
-    font-weight: bold;
-  }
-  
-  .status-expired {
-    color: red;
-    font-weight: bold;
-  }
+}
