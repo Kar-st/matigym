@@ -1,69 +1,57 @@
+:root {
+  --primary: #FF4D4D;
+  --secondary: #2B2D42;
+  --accent: #F8C537;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f8;
-    margin: 0;
-    padding: 0;
+  font-family: 'Open Sans', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43);
+  color: white;
 }
 
-header {
-    background: #1e88e5;
-    color: white;
-    text-align: center;
-    padding: 1rem;
+.hero {
+  text-align: center;
+  padding: 2rem;
+  background: var(--secondary);
+  margin-bottom: 2rem;
 }
 
-h1, h2 {
-    margin: 0.5rem 0;
+.card-wod {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin: 1rem auto;
+  max-width: 500px;
+  border: 1px solid var(--accent);
 }
 
-.form-section, .tabla-section {
-    background: white;
-    padding: 1rem;
-    margin: 1rem auto;
-    width: 90%;
-    max-width: 800px;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+.btn-pulse {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  animation: pulse 2s infinite;
 }
 
-form input, form button {
-    margin: 0.5rem;
-    padding: 0.7rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
-form button {
-    background: #1e88e5;
-    color: white;
-    cursor: pointer;
-    border: none;
-}
-
-form button:hover {
-    background: #1565c0;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 0.7rem;
-    text-align: center;
-}
-
-.estado-activo {
-    background-color: #c8e6c9;
-}
-
-.estado-vencido {
-    background-color: #ffcdd2;
-}
-
-.estado-por-vencer {
-    background-color: #fff9c4;
+.timer-circle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 5px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin: 0 auto;
 }
