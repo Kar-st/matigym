@@ -1,52 +1,182 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MATIGYM Pro</title>
-  <!-- Fuentes y librerías -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-  <link rel="stylesheet" href="css/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MVP Gestión de Gimnasio</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="app-header">
-    <h1 class="logo">MATIGYM <span>PRO</span></h1>
-    <div class="user-avatar"></div>
+  <header class="topbar">
+    <h1>MVP Gestión de Gimnasio</h1>
+    <div class="api">
+      <label>API URL</label>
+      <input id="apiBase" type="url" placeholder="https://script.google.com/.../exec" />
+      <button id="saveApi">Guardar</button>
+    </div>
   </header>
 
-  <main class="app-container">
-    <!-- Sección de WOD -->
-    <section class="wod-card animate__animated animate__fadeIn">
-      <div class="wod-header">
-        <h2>WOD DEL DÍA</h2>
-        <span class="difficulty-badge">INTERMEDIO</span>
+  <main class="container">
+    <nav class="tabs">
+      <button class="tab active" data-tab="dashboard">Dashboard</button>
+      <button class="tab" data-tab="members">Socios</button>
+      <button class="tab" data-tab="plans">Planes</button>
+      <button class="tab" data-tab="payments">Pagos</button>
+      <button class="tab" data-tab="attendance">Asistencias</button>
+    </nav>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="tabpanel active">
+      <div class="cards">
+        <div class="card">
+          <h3>Socios activos</h3>
+          <p id="kpiActivos">—</p>
+        </div>
+        <div class="card">
+          <h3>Vencidos / Por vencer (≤3 días)</h3>
+          <p id="kpiVencidos">—</p>
+        </div>
+        <div class="card">
+          <h3>Pagos del mes</h3>
+          <p id="kpiPagosMes">—</p>
+        </div>
       </div>
-      <div class="wod-content" id="wodDisplay">
-        <p>15 Min AMRAP:</p>
-        <ul>
-          <li>12 Burpees</li>
-          <li>20 Air Squats</li>
-          <li>400m Run</li>
-        </ul>
-      </div>
-      <button id="generateBtn" class="action-btn animate__animated animate__pulse animate__infinite">
-        🔄 Generar Nuevo WOD
-      </button>
+      <h3>Alertas</h3>
+      <table>
+        <thead><tr><th>Socio</th><th>DNI</th><th>Plan</th><th>Vence</th><th>Estado</th></tr></thead>
+        <tbody id="tblAlertas"></tbody>
+      </table>
     </section>
 
-    <!-- Temporizador -->
-    <section class="timer-section">
-      <div class="timer-circle" id="timer">
-        12:00
+    <!-- MEMBERS -->
+    <section id="members" class="tabpanel">
+      <div class="grid-2">
+        <form id="frmMember" class="panel">
+          <h3>Nuevo / Editar socio</h3>
+          <input name="id" type="hidden" />
+          <label>Nombre y apellido<input name="name" required /></label>
+          <label>DNI<input name="dni" /></label>
+          <label>Teléfono<input name="phone" /></label>
+          <label>Email<input name="email" type="email" /></label>
+          <label>Plan
+            <select name="planId" id="memberPlan"></select>
+          </label>
+          <label>Inicio<input name="startDate" type="date" /></label>
+          <label>Vencimiento<input name="endDate" type="date" /></label>
+          <label class="check"><input type="checkbox" name="active" checked /> Activo</label>
+          <div class="actions">
+            <button type="submit">Guardar socio</button>
+            <button type="reset">Limpiar</button>
+          </div>
+          <small class="muted">Tip: Al registrar un pago con plan, el vencimiento se renueva solo.</small>
+        </form>
+
+        <div class="panel">
+          <h3>Listado de socios</h3>
+          <input id="memberSearch" placeholder="Buscar por nombre o DNI" />
+          <table>
+            <thead><tr><th>Nombre</th><th>DNI</th><th>Plan</th><th>Vence</th><th>Estado</th><th></th></tr></thead>
+            <tbody id="tblMembers"></tbody>
+          </table>
+        </div>
       </div>
-      <div class="timer-controls">
-        <button id="startTimer" class="timer-btn start">▶️ Comenzar</button>
-        <button id="resetTimer" class="timer-btn reset">🔄 Reiniciar</button>
+    </section>
+
+    <!-- PLANS -->
+    <section id="plans" class="tabpanel">
+      <div class="grid-2">
+        <form id="frmPlan" class="panel">
+          <h3>Nuevo / Editar plan</h3>
+          <input name="id" type="hidden" />
+          <label>Nombre<input name="name" required /></label>
+          <label>Días de duración<input name="durationDays" type="number" min="1" value="30" required /></label>
+          <label>Precio<input name="price" type="number" min="0" step="0.01" value="0" required /></label>
+          <label class="check"><input type="checkbox" name="active" checked /> Activo</label>
+          <div class="actions">
+            <button type="submit">Guardar plan</button>
+            <button type="reset">Limpiar</button>
+          </div>
+        </form>
+
+        <div class="panel">
+          <h3>Planes</h3>
+          <table>
+            <thead><tr><th>Nombre</th><th>Días</th><th>Precio</th><th>Estado</th><th></th></tr></thead>
+            <tbody id="tblPlans"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAYMENTS -->
+    <section id="payments" class="tabpanel">
+      <div class="grid-2">
+        <form id="frmPayment" class="panel">
+          <h3>Registrar pago</h3>
+          <label>Socio
+            <select name="memberId" id="paymentMember" required></select>
+          </label>
+          <label>Plan a renovar
+            <select name="planId" id="paymentPlan"></select>
+          </label>
+          <label>Monto<input name="amount" type="number" min="0" step="0.01" required /></label>
+          <label>Fecha<input name="date" type="date" required /></label>
+          <label>Método
+            <select name="method">
+              <option value="efectivo">Efectivo</option>
+              <option value="transferencia">Transferencia</option>
+              <option value="tarjeta">Tarjeta</option>
+              <option value="otros">Otros</option>
+            </select>
+          </label>
+          <label>Nota<textarea name="note" rows="2" placeholder="Opcional"></textarea></label>
+          <div class="actions">
+            <button type="submit">Guardar pago</button>
+            <button type="reset">Limpiar</button>
+          </div>
+          <small class="muted">Si elegís un plan, el sistema **renueva la fecha de vencimiento** automáticamente.</small>
+        </form>
+
+        <div class="panel">
+          <h3>Pagos recientes</h3>
+          <table>
+            <thead><tr><th>Fecha</th><th>Socio</th><th>Plan</th><th>Monto</th><th>Método</th></tr></thead>
+            <tbody id="tblPayments"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ATTENDANCE -->
+    <section id="attendance" class="tabpanel">
+      <div class="grid-2">
+        <form id="frmAttendance" class="panel">
+          <h3>Registrar asistencia</h3>
+          <label>Socio
+            <select name="memberId" id="attendanceMember" required></select>
+          </label>
+          <label>Nota (opcional)<textarea name="note" rows="2"></textarea></label>
+          <div class="actions">
+            <button type="submit">Check-in</button>
+            <button type="reset">Limpiar</button>
+          </div>
+        </form>
+
+        <div class="panel">
+          <h3>Asistencias hoy</h3>
+          <table>
+            <thead><tr><th>Hora</th><th>Socio</th><th>Nota</th></tr></thead>
+            <tbody id="tblAttendance"></tbody>
+          </table>
+        </div>
       </div>
     </section>
   </main>
 
-  <script src="js/app.js" type="module"></script>
+  <footer class="footer">
+    <small>MVP Gym • HTML/CSS/JS + Google Apps Script + Sheets</small>
+  </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>
